@@ -18,8 +18,10 @@ export default function Home() {
       </Head>
       <main>
         <DateProvider>
-          <Container sx={{ textAlign: "center" }}>
-            <Typography variant="h1">Lesson Scheduler</Typography>
+          <Container sx={{ width: "80%", mx: "auto", textAlign: "center" }}>
+            <Typography variant="h3" sx={{ mx: "auto" }}>
+              Lesson Scheduler
+            </Typography>
             <CalendarContainer />
           </Container>
         </DateProvider>

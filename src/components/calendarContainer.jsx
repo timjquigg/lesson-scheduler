@@ -7,7 +7,7 @@ import CalendarForm from "./calendarForm";
 
 export default function CalendarContainer(props) {
   return (
-    <Paper sx={{ width: 2 / 3, p: "1rem" }}>
+    <Paper sx={{ width: 2 / 3, p: "1rem", mx: "auto" }}>
       <CalendarForm />
       <Calendar />
     </Paper>
