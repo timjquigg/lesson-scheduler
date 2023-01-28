@@ -19,6 +19,7 @@ import StyledTableCell from "./styledTableCell";
 import { dateContext } from "@/providers/dateProvider";
 
 export default function Calendar(props) {
+  const { width, margin } = props;
   const { year, month } = useContext(dateContext);
 
   const date = new Date(year, month);
@@ -56,7 +57,7 @@ export default function Calendar(props) {
   });
 
   return (
-    <Box>
+    <Box sx={{ width: { width }, m: { margin } }}>
       <TableContainer
         component={Box}
         sx={{ border: 1, borderRadius: 3, maxWidth: "100%" }}

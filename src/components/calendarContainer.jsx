@@ -4,12 +4,16 @@ import { Box, Paper, Typography } from "@mui/material";
 import Calendar from "../components/calendar";
 import { dateContext } from "@/providers/dateProvider";
 import CalendarForm from "./calendarForm";
+import TimeSlots from "./timeSlots";
 
 export default function CalendarContainer(props) {
   return (
-    <Paper sx={{ width: 2 / 3, p: "1rem", mx: "auto" }}>
+    <Paper sx={{ width: "100%", p: "1rem", mx: "auto" }}>
       <CalendarForm />
-      <Calendar />
+      <Box sx={{ display: "flex", flexDirection: "row", p: "1rem" }}>
+        <Calendar width="75%" margin="0.5rem" />
+        <TimeSlots width="25%" margin="0.5rem" />
+      </Box>
     </Paper>
   );
 }
