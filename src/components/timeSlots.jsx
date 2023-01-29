@@ -7,11 +7,17 @@ export default function TimeSlots(props) {
   const { width, margin } = props;
   const { timeSlots, updateTimeSlots } = useContext(dateContext);
 
+  const handleClick = (timeSlot) => {
+    updateTimeSlots(timeSlot);
+  };
+
   const timeSlotList = Object.keys(timeSlots).map((el, index) => {
     return (
       <Button
         key={index}
-        variant={timeSlots[el].available ? "contained" : "disabled"}
+        variant={timeSlots[el].appointment ? "disabled" : "contained"}
+        value={el}
+        onClick={() => handleClick(el)}
       >
         {timeSlots[el].start} - {timeSlots[el].end}
       </Button>

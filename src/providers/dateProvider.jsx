@@ -5,17 +5,17 @@ const tempTimeSlots = {
   1: {
     start: 8,
     end: 9,
-    available: true,
+    appointment: false,
   },
   2: {
     start: 9,
     end: 10,
-    available: true,
+    appointment: false,
   },
   3: {
     start: 10,
     end: 11,
-    available: true,
+    appointment: false,
   },
 };
 
@@ -40,11 +40,11 @@ export default function DateProvider(props) {
     }
   };
 
-  const updateTimeSlots = (newData) => {
+  const updateTimeSlots = (timeSlot) => {
     setTimeSlots((prev) => {
       const newTimeSlots = { ...prev };
 
-      newTimeSlots[newData.id] = newData;
+      newTimeSlots[timeSlot].appointment = !newTimeSlots[timeSlot].appointment;
 
       return newTimeSlots;
     });
