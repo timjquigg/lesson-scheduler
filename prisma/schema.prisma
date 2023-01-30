@@ -21,7 +21,7 @@ model User {
   city            String          @db.VarChar(255)
   province        String          @db.VarChar(255)
   country         String          @db.VarChar(255)
-  post_code       String          @db.VarChar(255)
+  postal_code     String          @db.VarChar(255)
   student         Boolean         @default(true)
   teacher         Boolean         @default(false)
   teaching_appt   Appointment[]   @relation("TeachingAppt")
