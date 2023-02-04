@@ -16,7 +16,7 @@ import {
   getWeeksInMonth,
 } from "date-fns";
 import StyledTableCell from "./styledTableCell";
-import { dateContext } from "@/providers/dateProvider";
+import { dateContext } from "../providers/dateProvider";
 
 export default function Calendar(props) {
   const { width, margin } = props;

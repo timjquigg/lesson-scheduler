@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { dateContext } from "@/providers/dateProvider";
+import { dateContext } from "../providers/dateProvider";
 import { Stack } from "@mui/system";
 import { Box, Button, Paper } from "@mui/material";
 

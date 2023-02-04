@@ -2,7 +2,7 @@ import { useState, useContext } from "react";
 import { getMonth, format } from "date-fns";
 import { Box, Paper, Typography } from "@mui/material";
 import Calendar from "../components/calendar";
-import { dateContext } from "@/providers/dateProvider";
+import { dateContext } from "../providers/dateProvider";
 import CalendarForm from "./calendarForm";
 import TimeSlots from "./timeSlots";
 
