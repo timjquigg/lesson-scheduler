@@ -26,12 +26,7 @@ const userRoutes = require("./routes/user");
 app.use("/user", userRoutes);
 // app.use('/appointments', appointmentsRoutes);
 
-app.get("/", async (req, res) => {
-  if (req.session) {
-    const user = await getUserbyId(req.session.id);
-    res.send(user);
-  }
-});
+app.get("/", async (req, res) => {});
 
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);

@@ -8,8 +8,6 @@ export const userContext = createContext();
 export default function UserProvider(props) {
   const [user, setUser] = useState({});
 
-  // Get user if cookie:
-
   useEffect(() => {
     axios.get("/user").then((res) => {
       setUser(res.data);
@@ -18,14 +16,14 @@ export default function UserProvider(props) {
 
   const signIn = (email, password) => {
     axios.get(`/user/${email}&${password}`).then((res) => {
-      console.log(res.data);
       setUser(res.data);
     });
   };
 
   const signOut = () => {
-    // Clear cookie
-    setUser({});
+    axios.post(`/user/${user.email}`).then(() => {
+      setUser({});
+    });
   };
 
   const providerData = {
