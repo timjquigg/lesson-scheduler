@@ -1,21 +1,26 @@
-import { createContext, useState } from "react";
-import useSWR from "swr";
-import fetcher from "lib/fetcher";
+import { createContext, useEffect, useState } from "react";
+import axios from "axios";
+// import useSWR from "swr";
+// import fetcher from "../../lib/fetcher";
 
 export const userContext = createContext();
 
 export default function UserProvider(props) {
   const [user, setUser] = useState({});
 
-  // Check for cookie
-  if (hasCookie("userId")) {
-  }
+  // Get user if cookie:
+
+  useEffect(() => {
+    axios.get("/user").then((res) => {
+      setUser(res.data);
+    });
+  }, []);
 
   const signIn = (email, password) => {
-    // Check e-mail & password against db
-    // Have db return user object
-    // Create cookie with user
-    setUser(resposne);
+    axios.get(`/user/${email}&${password}`).then((res) => {
+      console.log(res.data);
+      setUser(res.data);
+    });
   };
 
   const signOut = () => {

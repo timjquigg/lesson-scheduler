@@ -1,6 +1,7 @@
 if (process.env.NODE_ENV === "development") {
   require("dotenv").config();
 }
+const { getUserbyId } = require("../lib/user");
 
 const express = require("express");
 const morgan = require("morgan");
@@ -19,11 +20,18 @@ app.use(
   })
 );
 
-// const userRoutes = require('./routes/users');
+const userRoutes = require("./routes/user");
 // const appointmentsRoutes = require('./routes/appointments');
 
-// app.use('/users', userRoutes);
+app.use("/user", userRoutes);
 // app.use('/appointments', appointmentsRoutes);
+
+app.get("/", async (req, res) => {
+  if (req.session) {
+    const user = await getUserbyId(req.session.id);
+    res.send(user);
+  }
+});
 
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
