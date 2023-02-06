@@ -1,5 +1,6 @@
 import { Typography } from "@mui/material";
-import CalendarContainer from "./components/calendarContainer";
+import Scheduler from "./components/scheduler";
+import Dashboard from "./components/dashboard";
 import { Box, Container } from "@mui/system";
 import DateProvider from "./providers/dateProvider";
 import NavBar from "./components/navbar";
@@ -22,7 +23,8 @@ export default function Home() {
                 Lesson Scheduler
               </Typography>
               <NavBar />
-              <CalendarContainer />
+              {/* <Scheduler /> */}
+              <Dashboard />
             </Container>
           </UserProvider>
         </DateProvider>
