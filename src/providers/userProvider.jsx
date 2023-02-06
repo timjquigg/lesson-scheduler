@@ -1,7 +1,5 @@
 import { createContext, useEffect, useState } from "react";
 import axios from "axios";
-// import useSWR from "swr";
-// import fetcher from "../../lib/fetcher";
 
 export const userContext = createContext();
 
@@ -15,13 +13,17 @@ export default function UserProvider(props) {
   }, []);
 
   const signIn = (email, password) => {
-    axios.get(`/user/${email}&${password}`).then((res) => {
+    const payload = {
+      email,
+      password,
+    };
+    axios.post("/user/login", payload).then((res) => {
       setUser(res.data);
     });
   };
 
   const signOut = () => {
-    axios.post(`/user/${user.email}`).then(() => {
+    axios.post(`/user/logout`).then(() => {
       setUser({});
     });
   };
