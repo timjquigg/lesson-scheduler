@@ -11,6 +11,7 @@ const app = express();
 
 app.use(morgan("dev"));
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 app.use(express.static("build"));
 app.use(
   cookieSession({
@@ -19,11 +20,13 @@ app.use(
   })
 );
 
-// const userRoutes = require('./routes/users');
+const userRoutes = require("./routes/user");
 // const appointmentsRoutes = require('./routes/appointments');
 
-// app.use('/users', userRoutes);
+app.use("/user", userRoutes);
 // app.use('/appointments', appointmentsRoutes);
+
+app.get("/", async (req, res) => {});
 
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);

@@ -2,6 +2,8 @@ import { Typography } from "@mui/material";
 import CalendarContainer from "./components/calendarContainer";
 import { Box, Container } from "@mui/system";
 import DateProvider from "./providers/dateProvider";
+import NavBar from "./components/navbar";
+import UserProvider from "./providers/userProvider";
 
 export default function Home() {
   return (
@@ -14,12 +16,15 @@ export default function Home() {
       </head>
       <main>
         <DateProvider>
-          <Container sx={{ width: "80%", mx: "auto", textAlign: "center" }}>
-            <Typography variant="h3" sx={{ mx: "auto" }}>
-              Lesson Scheduler
-            </Typography>
-            <CalendarContainer />
-          </Container>
+          <UserProvider>
+            <Container sx={{ width: "80%", mx: "auto", textAlign: "center" }}>
+              <Typography variant="h3" sx={{ mx: "auto" }}>
+                Lesson Scheduler
+              </Typography>
+              <NavBar />
+              <CalendarContainer />
+            </Container>
+          </UserProvider>
         </DateProvider>
       </main>
     </>
