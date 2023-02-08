@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { AppBar, Button, Typography } from "@mui/material";
+import { AppBar, Box, Button, Typography } from "@mui/material";
 import { Container } from "@mui/system";
 import { userContext } from "../providers/userProvider";
 
@@ -15,18 +15,33 @@ export default function NavBar(props) {
   };
 
   return (
-    <>
-      <AppBar position="static">
-        <Container maxWidth="xl">
-          <Button variant="contained" onClick={handleLogin}>
+    <Box sx={{ flexGrow: 1 }}>
+      <AppBar
+        position="static"
+        sx={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "flex-end",
+        }}
+      >
+        {/* <Container maxWidth="xl" sx={{ display: "flex", flexDirection: "row" }}> */}
+        {!user.email && (
+          <Button variant="string" onClick={handleLogin} sx={{ mx: 1 }}>
             Login
           </Button>
-          <Button variant="contained" onClick={handleLogout}>
-            Logout
-          </Button>
-          <Typography>{user.email}</Typography>
-        </Container>
+        )}
+        {user.email && (
+          <>
+            <Typography sx={{ mx: 2, my: "auto" }}>
+              Welcom {user.first_name}
+            </Typography>
+            <Button variant="string" onClick={handleLogout} sx={{ mx: 1 }}>
+              Logout
+            </Button>
+          </>
+        )}
+        {/* </Container> */}
       </AppBar>
-    </>
+    </Box>
   );
 }

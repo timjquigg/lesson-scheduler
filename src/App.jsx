@@ -1,4 +1,4 @@
-import { Typography } from "@mui/material";
+import { Paper, Typography } from "@mui/material";
 import Scheduler from "./components/scheduler";
 import Dashboard from "./components/dashboard";
 import { Box, Container } from "@mui/system";
@@ -18,14 +18,21 @@ export default function Home() {
       <main>
         <DateProvider>
           <UserProvider>
-            <Container sx={{ width: "80%", mx: "auto", textAlign: "center" }}>
+            <Paper
+              sx={{
+                height: "100vh",
+                width: "80%",
+                mx: "auto",
+                textAlign: "center",
+              }}
+            >
               <Typography variant="h3" sx={{ mx: "auto" }}>
                 Lesson Scheduler
               </Typography>
               <NavBar />
               {/* <Scheduler /> */}
               <Dashboard />
-            </Container>
+            </Paper>
           </UserProvider>
         </DateProvider>
       </main>

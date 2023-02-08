@@ -5,7 +5,8 @@ import { userContext } from "../../providers/userProvider";
 export default function UserDetails(props) {
   const { user } = useContext(userContext);
   return (
-    <Card>
+    <Card sx={{ m: 2 }}>
+      <Typography variant="h4">User</Typography>
       <Typography>
         {user.first_name} {user.last_name}
       </Typography>
