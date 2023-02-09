@@ -1,28 +1,11 @@
 import { useState } from "react";
-import {
-  TableRow,
-  TableCell,
-  Collapse,
-  Box,
-  Table,
-  TableHead,
-  TableBody,
-  IconButton,
-  Tooltip,
-} from "@mui/material";
-import {
-  KeyboardArrowUp,
-  KeyboardArrowDown,
-  Edit,
-  CheckBoxOutlined,
-  CheckBoxOutlineBlankOutlined,
-} from "@mui/icons-material";
+import { TableRow, TableCell, IconButton, Tooltip } from "@mui/material";
+import { Edit } from "@mui/icons-material";
 import makeTitleCase from "../../helpers/makeTitleCase";
 import useUsers from "../../hooks/useUsers";
 
 export default function Row(props) {
   const { user, index } = props;
-  const [open, setOpen] = useState(false);
   const { users } = useUsers();
 
   const handleEditClick = (event) => {
@@ -33,13 +16,6 @@ export default function Row(props) {
     return (
       <>
         <TableRow key={index}>
-          <TableCell align="center" sx={{ width: "1em", m: 0, p: 0 }}>
-            <Tooltip title={open ? "Hide" : "Show"}>
-              <IconButton size="small" onClick={() => setOpen(!open)}>
-                {open ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
-              </IconButton>
-            </Tooltip>
-          </TableCell>
           <TableCell align="center" sx={{ mx: 0.5, px: 0.5 }}>
             {users[user].id}
           </TableCell>
@@ -58,48 +34,6 @@ export default function Row(props) {
                 <Edit />
               </IconButton>
             </Tooltip>
-          </TableCell>
-        </TableRow>
-        <TableRow>
-          <TableCell align="center" colSpan={5} sx={{ py: 0 }}>
-            <Collapse in={open} timeout="auto" unmountOnExit>
-              <Box sx={{ m: 1 }}>
-                <Table size="small">
-                  <TableHead>
-                    <TableRow>
-                      <TableCell align="center">Student</TableCell>
-                      <TableCell align="center">Teacher</TableCell>
-                      <TableCell align="center">Admin</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    <TableRow>
-                      <TableCell align="center">
-                        {users[user].student ? (
-                          <CheckBoxOutlined />
-                        ) : (
-                          <CheckBoxOutlineBlankOutlined />
-                        )}
-                      </TableCell>
-                      <TableCell align="center">
-                        {users[user].teacher ? (
-                          <CheckBoxOutlined />
-                        ) : (
-                          <CheckBoxOutlineBlankOutlined />
-                        )}
-                      </TableCell>
-                      <TableCell align="center">
-                        {users[user].admin ? (
-                          <CheckBoxOutlined />
-                        ) : (
-                          <CheckBoxOutlineBlankOutlined />
-                        )}
-                      </TableCell>
-                    </TableRow>
-                  </TableBody>
-                </Table>
-              </Box>
-            </Collapse>
           </TableCell>
         </TableRow>
       </>

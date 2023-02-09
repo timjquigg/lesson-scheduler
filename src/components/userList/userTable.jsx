@@ -13,7 +13,11 @@ import useUsers from "../../hooks/useUsers";
 export default function UserTable(props) {
   const { users, updateUsers } = useUsers();
   const usersList = Object.keys(users).map((key, index) => {
-    return <Row key={key} index={index} user={key} />;
+    return users[key][props.filter] ? (
+      <Row key={key} index={index} user={key} />
+    ) : (
+      <></>
+    );
   });
 
   return (
@@ -21,10 +25,6 @@ export default function UserTable(props) {
       <Table size="small">
         <TableHead>
           <TableRow>
-            <TableCell
-              align="center"
-              sx={{ width: "1em", m: 0, p: 0 }}
-            ></TableCell>
             <TableCell align="center" sx={{ mx: 0.5, px: 0.5 }}>
               User ID
             </TableCell>
