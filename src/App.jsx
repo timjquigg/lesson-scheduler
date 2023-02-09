@@ -25,7 +25,7 @@ export default function Home() {
           <Paper
             sx={{
               height: "100vh",
-              maxWidth: "1080",
+              maxWidth: "1080px",
               mx: "auto",
               textAlign: "center",
             }}

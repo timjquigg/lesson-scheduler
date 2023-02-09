@@ -40,11 +40,13 @@ export default function Row(props) {
               </IconButton>
             </Tooltip>
           </TableCell>
-          <TableCell align="center">{users[user].id}</TableCell>
-          <TableCell align="center">
+          <TableCell align="center" sx={{ mx: 0.5, px: 0.5 }}>
+            {users[user].id}
+          </TableCell>
+          <TableCell align="center" sx={{ mx: 0.5, px: 0.5 }}>
             {makeTitleCase(users[user].first_name)}
           </TableCell>
-          <TableCell align="center">
+          <TableCell align="center" sx={{ mx: 0.5, px: 0.5 }}>
             {makeTitleCase(users[user].last_name)}
           </TableCell>
           <TableCell align="center" sx={{ m: 0, p: 0 }}>
@@ -59,7 +61,7 @@ export default function Row(props) {
           </TableCell>
         </TableRow>
         <TableRow>
-          <TableCell align="center" colSpan={5}>
+          <TableCell align="center" colSpan={5} sx={{ py: 0 }}>
             <Collapse in={open} timeout="auto" unmountOnExit>
               <Box sx={{ m: 1 }}>
                 <Table size="small">
