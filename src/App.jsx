@@ -30,9 +30,6 @@ export default function Home() {
               textAlign: "center",
             }}
           >
-            <Typography variant="h3" sx={{ mx: "auto" }}>
-              Lesson Scheduler
-            </Typography>
             <NavBar />
             <Box sx={{ my: 2 }}>
               {/* <Scheduler /> */}
