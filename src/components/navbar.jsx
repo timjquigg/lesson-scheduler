@@ -21,7 +21,6 @@ export default function NavBar(props) {
           justifyContent: "flex-end",
         }}
       >
-        {/* <Container maxWidth="xl" sx={{ display: "flex", flexDirection: "row" }}> */}
         {!user.email && <SignInButton variant="string" />}
         {user.email && (
           <>
@@ -33,7 +32,6 @@ export default function NavBar(props) {
             </Button>
           </>
         )}
-        {/* </Container> */}
       </AppBar>
     </Box>
   );
