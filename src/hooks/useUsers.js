@@ -11,7 +11,6 @@ export default function useUsers() {
   useEffect(() => {
     axios.get("/user/").then((res) => {
       setUsers(res.data);
-      console.log(res.data);
     });
   }, []);
 

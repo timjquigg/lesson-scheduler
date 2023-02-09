@@ -1,6 +1,8 @@
 import {
   Box,
+  Button,
   Card,
+  Collapse,
   Table,
   TableBody,
   TableCell,
@@ -11,32 +13,32 @@ import {
 } from "@mui/material";
 import useUsers from "../../hooks/useUsers";
 import makeTitleCase from "../../helpers/makeTitleCase";
+import { useState } from "react";
+import Row from "./row";
 
 export default function UserList(props) {
+  // const [open, setOpen] = useState(false);
   const { users, updateUsers } = useUsers();
 
   const usersList = Object.keys(users).map((key, index) => {
-    return (
-      <TableRow key={index}>
-        <TableCell>{users[key].id}</TableCell>
-        <TableCell>{makeTitleCase(users[key].first_name)}</TableCell>
-        <TableCell>{makeTitleCase(users[key].last_name)}</TableCell>
-        <TableCell>edit</TableCell>
-      </TableRow>
-    );
+    return <Row key={key} index={index} user={key} />;
   });
 
   return (
     <Card sx={{ m: 2 }}>
       <Typography variant="h4">Users</Typography>
       <TableContainer component={Box}>
-        <Table>
+        <Table size="small">
           <TableHead>
             <TableRow>
-              <TableCell>User ID</TableCell>
-              <TableCell>First Name</TableCell>
-              <TableCell>Last Name</TableCell>
-              <TableCell></TableCell>
+              <TableCell
+                align="center"
+                sx={{ width: "1em", m: 0, p: 0 }}
+              ></TableCell>
+              <TableCell align="center">User ID</TableCell>
+              <TableCell align="center">First Name</TableCell>
+              <TableCell align="center">Last Name</TableCell>
+              <TableCell align="center" sx={{ m: 0, p: 0 }}></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>{usersList}</TableBody>
