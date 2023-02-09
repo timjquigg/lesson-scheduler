@@ -6,14 +6,12 @@ import AdminDashboard from "./adminDashboard";
 
 export default function Dashboard(props) {
   const { user } = useContext(userContext);
-  if (user.student) {
-    return <StudentDashboard />;
-  }
-  if (user.teacher) {
-    return <TeacherDashboard />;
-  }
-  if (user.admin) {
-    return <AdminDashboard />;
-  }
-  return <></>;
+
+  return (
+    <>
+      {user.student && <StudentDashboard />}
+      {user.teacher && <TeacherDashboard />}
+      {user.admin && <AdminDashboard />}
+    </>
+  );
 }
