@@ -7,7 +7,7 @@ export default function UserProvider(props) {
   const [user, setUser] = useState({});
 
   useEffect(() => {
-    axios.get("/user").then((res) => {
+    axios.post("/user/login").then((res) => {
       setUser(res.data);
     });
   }, []);

@@ -18,7 +18,6 @@ import makeTitleCase from "../../helpers/makeTitleCase";
 
 export default function Appointments(props) {
   const { user } = useContext(userContext);
-  console.log({ user });
   const appointments = useAppointments(user);
 
   const appointmentList = appointments.map((appointment, index) => {

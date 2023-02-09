@@ -1,6 +1,6 @@
 import Grid from "@mui/material/Unstable_Grid2";
 import { Button } from "@mui/material";
-import Appointments from "./appointments";
+import Appointments from "../appointments";
 import UserDetails from "./userDetails";
 
 export default function StudentDashboard(props) {
