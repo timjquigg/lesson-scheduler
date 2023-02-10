@@ -1,6 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const { getUserByEmail, getUserbyId, getAllUsers } = require("../../lib/user");
+const {
+  getUserByEmail,
+  getUserbyId,
+  getAllUsers,
+  updateUser,
+} = require("../../lib/user");
 
 router.get("/", async (req, res) => {
   const users = await getAllUsers();
@@ -39,6 +44,11 @@ router.post("/logout", (req, res) => {
   console.log(`Logged out user ${req.session.userId}`);
   req.session = null;
   res.status(201).send();
+});
+
+router.post("/:id", async (req, res) => {
+  const user = await updateUser(req.body);
+  res.status(200).send(user);
 });
 
 module.exports = router;
