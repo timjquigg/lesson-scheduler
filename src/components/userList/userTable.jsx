@@ -8,19 +8,23 @@ import {
   TableBody,
 } from "@mui/material";
 import Row from "./row";
-import useUsers from "../../hooks/useUsers";
-import { Fragment } from "react";
+// import useUsers from "../../hooks/useUsers";
 
 export default function UserTable(props) {
   const { users } = props;
 
-  const usersList = users
-    .sort((a, b) => {
-      return a.id - b.id;
-    })
-    .map((user, index) => {
-      return <Row key={user.id} index={index} user={user} />;
-    });
+  const usersList =
+    users.length > 0 ? (
+      users
+        .sort((a, b) => {
+          return a.id - b.id;
+        })
+        .map((user, index) => {
+          return <Row key={user.id} index={index} user={user} />;
+        })
+    ) : (
+      <></>
+    );
 
   return (
     <TableContainer component={Box}>

@@ -1,11 +1,12 @@
-import { useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import axios from "axios";
 
-export default function useUsers() {
+export const usersContext = createContext();
+
+export default function UsersProvider(props) {
   const [users, setUsers] = useState([]);
 
   const updateUsers = (newUser) => {
-    console.log("New user in useUsers", newUser);
     setUsers((prev) => {
       const newUsers = [...prev];
       for (const index in newUsers) {
@@ -24,6 +25,14 @@ export default function useUsers() {
     });
   }, []);
 
-  console.log("render useUsers");
-  return { users, updateUsers };
+  const providerData = {
+    users,
+    updateUsers,
+  };
+
+  return (
+    <usersContext.Provider value={providerData}>
+      {props.children}
+    </usersContext.Provider>
+  );
 }

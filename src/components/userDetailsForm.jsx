@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+// import { useContext } from "react";
 import {
   Button,
   Dialog,
@@ -12,13 +12,14 @@ import {
   Checkbox,
 } from "@mui/material";
 import useUserDetails from "../hooks/useUserDetails";
-import { userContext } from "../providers/userProvider";
+// import { usersContext } from "../providers/usersProvider";
 
 export default function UserDetailsForm(props) {
   const open = props.open;
   const setOpen = props.setOpen;
 
-  // const { updateUsers } = useContext(userContext);
+  // const { updateUsers } = useContext(usersContext);
+  // console.log(updateUsers);
 
   const {
     user,

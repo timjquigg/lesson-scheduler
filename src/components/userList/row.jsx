@@ -1,20 +1,19 @@
 import { TableRow, TableCell, IconButton, Tooltip } from "@mui/material";
 import { Edit } from "@mui/icons-material";
 import makeTitleCase from "../../helpers/makeTitleCase";
-import useUsers from "../../hooks/useUsers";
+// import useUsers from "../../hooks/useUsers";
 import UserDetailsForm from "../userDetailsForm";
 import { useState } from "react";
 
 export default function Row(props) {
-  const { user, index } = props;
-  const { users } = useUsers();
+  const { user } = props;
+  // const { users } = useUsers();
   const [open, setOpen] = useState(false);
 
   const handleEditClick = (event) => {
     setOpen(true);
   };
-
-  if (users.length > 0) {
+  if (user.hasOwnProperty("id")) {
     return (
       <>
         <TableRow>

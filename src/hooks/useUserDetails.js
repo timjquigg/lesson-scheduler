@@ -1,6 +1,6 @@
-import { useState } from "react";
-import useUsers from "./useUsers";
+import { useEffect, useState, useContext } from "react";
 import axios from "axios";
+import { usersContext } from "../providers/usersProvider";
 
 const emptyUser = {
   first_name: "",
@@ -36,7 +36,11 @@ export default function useUserDetails(props) {
   const [teacher, setTeacher] = useState(user.teacher);
   const [admin, setAdmin] = useState(user.admin);
 
-  const { updateUsers } = useUsers();
+  const { updateUsers } = useContext(usersContext);
+
+  useEffect(() => {
+    setUser(props ?? emptyUser);
+  }, [props]);
 
   const resetUser = () => {
     setUser(props ?? emptyUser);
@@ -101,7 +105,6 @@ export default function useUserDetails(props) {
 
   const saveUpdates = () => {
     const data = {
-      id: user.id,
       first_name: firstName,
       last_name: lastName,
       email: email,
@@ -116,11 +119,13 @@ export default function useUserDetails(props) {
       teacher: teacher,
       admin: admin,
     };
-    return axios.post(`/user/${user.id}`, data).then((res) => {
-      console.log(res.data);
-      setUser((prev) => res.data);
-      // updateUsers(res.data);
-    });
+    if (user.id) {
+      data.id = user.id;
+      return axios.post(`/user/${user.id}`, data).then((res) => {
+        updateUsers(res.data);
+        setUser(res.data);
+      });
+    }
   };
 
   return {
