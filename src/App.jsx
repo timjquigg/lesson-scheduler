@@ -1,11 +1,16 @@
-import { Typography } from "@mui/material";
-import CalendarContainer from "./components/calendarContainer";
+import { Button, Paper, Typography } from "@mui/material";
+import Scheduler from "./components/scheduler";
+import Dashboard from "./components/dashboard";
 import { Box, Container } from "@mui/system";
 import DateProvider from "./providers/dateProvider";
 import NavBar from "./components/navbar";
-import UserProvider from "./providers/userProvider";
+import { userContext } from "./providers/userProvider";
+import { useContext } from "react";
+import SignInButton from "./components/signInButton";
 
 export default function Home() {
+  const { user } = useContext(userContext);
+
   return (
     <>
       <head>
@@ -16,15 +21,26 @@ export default function Home() {
       </head>
       <main>
         <DateProvider>
-          <UserProvider>
-            <Container sx={{ width: "80%", mx: "auto", textAlign: "center" }}>
-              <Typography variant="h3" sx={{ mx: "auto" }}>
-                Lesson Scheduler
-              </Typography>
-              <NavBar />
-              <CalendarContainer />
-            </Container>
-          </UserProvider>
+          {/* <UserProvider> */}
+          <Paper
+            sx={{
+              height: "100vh",
+              maxWidth: "1080px",
+              mx: "auto",
+              textAlign: "center",
+            }}
+          >
+            <NavBar />
+            <Box sx={{ my: 2 }}>
+              {/* <Scheduler /> */}
+              {user.hasOwnProperty("id") ? (
+                <Dashboard />
+              ) : (
+                <SignInButton variant="contained" />
+              )}
+            </Box>
+          </Paper>
+          {/* </UserProvider> */}
         </DateProvider>
       </main>
     </>

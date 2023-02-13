@@ -21,10 +21,10 @@ app.use(
 );
 
 const userRoutes = require("./routes/user");
-// const appointmentsRoutes = require('./routes/appointments');
+const appointmentsRoutes = require("./routes/appointments");
 
 app.use("/user", userRoutes);
-// app.use('/appointments', appointmentsRoutes);
+app.use("/appointments", appointmentsRoutes);
 
 app.get("/", async (req, res) => {});
 
