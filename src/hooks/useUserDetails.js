@@ -126,6 +126,11 @@ export default function useUserDetails(props) {
         setUser(res.data);
       });
     }
+
+    return axios.post("/user/", data).then((res) => {
+      updateUsers(res.data);
+      setUser(res.data);
+    });
   };
 
   return {

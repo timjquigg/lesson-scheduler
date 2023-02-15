@@ -1,10 +1,12 @@
 const express = require("express");
+const { user } = require("../../lib/prisma");
 const router = express.Router();
 const {
   getUserByEmail,
   getUserbyId,
   getAllUsers,
   updateUser,
+  createUser,
 } = require("../../lib/user");
 
 router.get("/", async (req, res) => {
@@ -49,6 +51,13 @@ router.post("/logout", (req, res) => {
 router.post("/:id", async (req, res) => {
   const user = await updateUser(req.body);
   res.status(200).send(user);
+});
+
+router.post("/", async (req, res) => {
+  const newUser = await createUser(req.body);
+  newUser.password = "";
+  res.status(201).send(newUser);
+  return;
 });
 
 module.exports = router;

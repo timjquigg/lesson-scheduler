@@ -9,14 +9,20 @@ export default function UsersProvider(props) {
   const updateUsers = (newUser) => {
     setUsers((prev) => {
       const newUsers = [...prev];
+      let found = false;
       for (const index in newUsers) {
         if (users[index].id === newUser.id) {
+          found = true;
           newUsers[index] = newUser;
           break;
         }
       }
+      if (!found) {
+        newUsers.push(newUser);
+      }
       return newUsers;
     });
+    console.log(newUser);
   };
 
   useEffect(() => {

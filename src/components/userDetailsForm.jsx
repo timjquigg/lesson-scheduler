@@ -22,7 +22,6 @@ export default function UserDetailsForm(props) {
   // console.log(updateUsers);
 
   const {
-    user,
     firstName,
     lastName,
     email,
@@ -73,16 +72,19 @@ export default function UserDetailsForm(props) {
           label="First Name"
           value={firstName}
           onChange={(e) => updateFirstName(e.target.value)}
+          sx={{ m: "0.5rem" }}
         />
         <TextField
           label="Last Name"
           value={lastName}
           onChange={(e) => updateLastName(e.target.value)}
+          sx={{ m: "0.5rem" }}
         />
         <TextField
           label="E-mail"
           value={email}
           onChange={(e) => updateEmail(e.target.value)}
+          sx={{ m: "0.5rem" }}
         />
         {/* <TextField
           label="Password"
@@ -93,36 +95,43 @@ export default function UserDetailsForm(props) {
           label="Phone"
           value={phone}
           onChange={(e) => updatePhone(e.target.value)}
+          sx={{ m: "0.5rem" }}
         />
         <TextField
           label="Address 1"
           value={address1}
           onChange={(e) => updateAddress1(e.target.value)}
+          sx={{ m: "0.5rem" }}
         />
         <TextField
           label="Address 2"
           value={address2}
           onChange={(e) => updateAddress2(e.target.value)}
+          sx={{ m: "0.5rem" }}
         />
         <TextField
           label="City"
           value={city}
           onChange={(e) => updateCity(e.target.value)}
+          sx={{ m: "0.5rem" }}
         />
         <TextField
           label="Province"
           value={province}
           onChange={(e) => updateProvince(e.target.value)}
+          sx={{ m: "0.5rem" }}
         />
         <TextField
           label="Country"
           value={country}
           onChange={(e) => updateCountry(e.target.value)}
+          sx={{ m: "0.5rem" }}
         />
         <TextField
           label="Postal Code"
           value={postalCode}
           onChange={(e) => updatePostalCode(e.target.value)}
+          sx={{ m: "0.5rem" }}
         />
         <FormGroup>
           <FormControlLabel
