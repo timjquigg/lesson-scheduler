@@ -40,6 +40,7 @@ export default function useUserDetails(props) {
   // Error checking:
   const [duplicateEmail, setDuplicateEmail] = useState(false);
   const [duplicatePhone, setDuplicatePhone] = useState(false);
+  const [noRolesSelected, setNoRolesSelected] = useState(false);
 
   const { users, updateUsers } = useContext(usersContext);
 
@@ -64,6 +65,7 @@ export default function useUserDetails(props) {
     setAdmin(user.admin);
     setDuplicateEmail(false);
     setDuplicatePhone(false);
+    setNoRolesSelected(false);
   };
 
   const updateFirstName = (value) => {
@@ -99,12 +101,15 @@ export default function useUserDetails(props) {
     setPostalCode(value);
   };
   const updateStudent = () => {
+    if (!student) setNoRolesSelected(false);
     setStudent(!student);
   };
   const updateTeacher = () => {
+    if (!teacher) setNoRolesSelected(false);
     setTeacher(!teacher);
   };
   const updateAdmin = () => {
+    if (!admin) setNoRolesSelected(false);
     setAdmin(!admin);
   };
 
@@ -124,7 +129,7 @@ export default function useUserDetails(props) {
       teacher: teacher,
       admin: admin,
     };
-
+    if (!student && !teacher && !admin) setNoRolesSelected(true);
     if (
       firstName.length === 0 ||
       lastName.length === 0 ||
@@ -134,10 +139,12 @@ export default function useUserDetails(props) {
       city.length === 0 ||
       province.length === 0 ||
       country.length === 0 ||
-      postalCode.length === 0
+      postalCode.length === 0 ||
+      noRolesSelected
     ) {
       return Promise.reject();
     }
+
     if (user.id) {
       data.id = user.id;
       return axios.post(`/user/${user.id}`, data).then((res) => {
@@ -179,6 +186,7 @@ export default function useUserDetails(props) {
     admin,
     duplicateEmail,
     duplicatePhone,
+    noRolesSelected,
     resetUser,
     updateFirstName,
     updateLastName,

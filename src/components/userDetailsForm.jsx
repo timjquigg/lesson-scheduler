@@ -6,10 +6,13 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
+  FormControl,
   FormControlLabel,
   FormGroup,
   TextField,
   Checkbox,
+  FormLabel,
+  FormHelperText,
 } from "@mui/material";
 import useUserDetails from "../hooks/useUserDetails";
 // import { usersContext } from "../providers/usersProvider";
@@ -35,6 +38,7 @@ export default function UserDetailsForm(props) {
     admin,
     duplicateEmail,
     duplicatePhone,
+    noRolesSelected,
     resetUser,
     updateFirstName,
     updateLastName,
@@ -79,9 +83,12 @@ export default function UserDetailsForm(props) {
           onChange={(e) => updateFirstName(e.target.value)}
           error={showErrors && firstName.length === 0}
           helperText={
-            showErrors && firstName.length === 0 && "First Name cannot be empty"
+            (showErrors &&
+              firstName.length === 0 &&
+              "First Name cannot be empty") ||
+            " "
           }
-          sx={{ m: "0.5rem" }}
+          sx={{ m: "0.25rem", minWidth: "150px" }}
         />
         <TextField
           label="Last Name"
@@ -89,9 +96,12 @@ export default function UserDetailsForm(props) {
           onChange={(e) => updateLastName(e.target.value)}
           error={showErrors && lastName.length === 0}
           helperText={
-            showErrors && lastName.length === 0 && "Last Name cannot be empty"
+            (showErrors &&
+              lastName.length === 0 &&
+              "Last Name cannot be empty") ||
+            " "
           }
-          sx={{ m: "0.5rem" }}
+          sx={{ m: "0.25rem", minWidth: "150px" }}
         />
         <TextField
           label="E-mail"
@@ -100,9 +110,10 @@ export default function UserDetailsForm(props) {
           error={duplicateEmail || (showErrors && email.length === 0)}
           helperText={
             (duplicateEmail && "E-mail exists") ||
-            (showErrors && email.length === 0 && "E-mail cannot be blank")
+            (showErrors && email.length === 0 && "E-mail cannot be blank") ||
+            " "
           }
-          sx={{ m: "0.5rem" }}
+          sx={{ m: "0.25rem", minWidth: "250px" }}
         />
         <TextField
           label="Phone"
@@ -111,9 +122,10 @@ export default function UserDetailsForm(props) {
           error={duplicatePhone || (showErrors && phone.length === 0)}
           helperText={
             (duplicatePhone && "Phone exists") ||
-            (showErrors && phone.length === 0 && "Phone cannot be blank")
+            (showErrors && phone.length === 0 && "Phone cannot be blank") ||
+            " "
           }
-          sx={{ m: "0.5rem" }}
+          sx={{ m: "0.25rem" }}
         />
         <TextField
           label="Address 1"
@@ -121,23 +133,29 @@ export default function UserDetailsForm(props) {
           onChange={(e) => updateAddress1(e.target.value)}
           error={showErrors && address1.length === 0}
           helperText={
-            showErrors && address1.length === 0 && "Address cannot be empty"
+            (showErrors &&
+              address1.length === 0 &&
+              "Address cannot be empty") ||
+            " "
           }
-          sx={{ m: "0.5rem" }}
+          sx={{ m: "0.25rem", minWidth: "250px" }}
         />
         <TextField
           label="Address 2"
           value={address2}
           onChange={(e) => updateAddress2(e.target.value)}
-          sx={{ m: "0.5rem" }}
+          helperText=" "
+          sx={{ m: "0.25rem", minWidth: "250px" }}
         />
         <TextField
           label="City"
           value={city}
           onChange={(e) => updateCity(e.target.value)}
           error={showErrors && city.length === 0}
-          helperText={showErrors && city.length === 0 && "City cannot be blank"}
-          sx={{ m: "0.5rem" }}
+          helperText={
+            (showErrors && city.length === 0 && "City cannot be blank") || " "
+          }
+          sx={{ m: "0.25rem" }}
         />
 
         <TextField
@@ -146,9 +164,12 @@ export default function UserDetailsForm(props) {
           onChange={(e) => updateProvince(e.target.value)}
           error={showErrors && province.length === 0}
           helperText={
-            showErrors && province.length === 0 && "Province cannot be blank"
+            (showErrors &&
+              province.length === 0 &&
+              "Province cannot be blank") ||
+            " "
           }
-          sx={{ m: "0.5rem" }}
+          sx={{ m: "0.25rem" }}
         />
         <TextField
           label="Country"
@@ -156,9 +177,10 @@ export default function UserDetailsForm(props) {
           onChange={(e) => updateCountry(e.target.value)}
           error={showErrors && country.length === 0}
           helperText={
-            showErrors && country.length === 0 && "Country cannot be blank"
+            (showErrors && country.length === 0 && "Country cannot be blank") ||
+            " "
           }
-          sx={{ m: "0.5rem" }}
+          sx={{ m: "0.25rem" }}
         />
         <TextField
           label="Postal Code"
@@ -166,30 +188,37 @@ export default function UserDetailsForm(props) {
           onChange={(e) => updatePostalCode(e.target.value)}
           error={showErrors && postalCode.length === 0}
           helperText={
-            showErrors && postalCode.length === 0 && "Post Code cannot be blank"
+            (showErrors &&
+              postalCode.length === 0 &&
+              "Post Code cannot be blank") ||
+            " "
           }
-          sx={{ m: "0.5rem" }}
+          sx={{ m: "0.25rem" }}
         />
-        <FormGroup>
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={student}
-                onChange={updateStudent}
-                name="student"
-              />
-            }
-            label="Student"
-          />
-          <FormControlLabel
-            control={<Checkbox checked={teacher} onChange={updateTeacher} />}
-            label="Teacher"
-          />
-          <FormControlLabel
-            control={<Checkbox checked={admin} onChange={updateAdmin} />}
-            label="Admin"
-          />
-        </FormGroup>
+        <FormControl error={noRolesSelected}>
+          <FormLabel component="legend">Assign User Roles</FormLabel>
+          <FormGroup>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={student}
+                  onChange={updateStudent}
+                  name="student"
+                />
+              }
+              label="Student"
+            />
+            <FormControlLabel
+              control={<Checkbox checked={teacher} onChange={updateTeacher} />}
+              label="Teacher"
+            />
+            <FormControlLabel
+              control={<Checkbox checked={admin} onChange={updateAdmin} />}
+              label="Admin"
+            />
+          </FormGroup>
+          <FormHelperText>Please choose at least one role</FormHelperText>
+        </FormControl>
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose}>Cancel</Button>
