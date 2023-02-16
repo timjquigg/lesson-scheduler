@@ -1,4 +1,5 @@
 import { useEffect, useState, useContext } from "react";
+import isDuplicate from "../helpers/isDuplicate";
 import axios from "axios";
 import { usersContext } from "../providers/usersProvider";
 
@@ -20,11 +21,11 @@ const emptyUser = {
 };
 
 export default function useUserDetails(props) {
+  // User details:
   const [user, setUser] = useState(props ?? emptyUser);
   const [firstName, setFirstName] = useState(user.first_name);
   const [lastName, setLastName] = useState(user.last_name);
   const [email, setEmail] = useState(user.email);
-  // const [password, setPassword] = useState(user.password);
   const [phone, setPhone] = useState(user.phone);
   const [address1, setAddress1] = useState(user.address_1);
   const [address2, setAddress2] = useState(user.address_2);
@@ -36,7 +37,11 @@ export default function useUserDetails(props) {
   const [teacher, setTeacher] = useState(user.teacher);
   const [admin, setAdmin] = useState(user.admin);
 
-  const { updateUsers } = useContext(usersContext);
+  // Error checking:
+  const [duplicateEmail, setDuplicateEmail] = useState(false);
+  const [duplicatePhone, setDuplicatePhone] = useState(false);
+
+  const { users, updateUsers } = useContext(usersContext);
 
   useEffect(() => {
     setUser(props ?? emptyUser);
@@ -47,7 +52,6 @@ export default function useUserDetails(props) {
     setFirstName(user.first_name);
     setLastName(user.last_name);
     setEmail(user.email);
-    // setPassword(user.password);
     setPhone(user.phone);
     setAddress1(user.address_1);
     setAddress2(user.address_2);
@@ -58,6 +62,8 @@ export default function useUserDetails(props) {
     setStudent(user.student);
     setTeacher(user.teacher);
     setAdmin(user.admin);
+    setDuplicateEmail(false);
+    setDuplicatePhone(false);
   };
 
   const updateFirstName = (value) => {
@@ -68,12 +74,11 @@ export default function useUserDetails(props) {
   };
   const updateEmail = (value) => {
     setEmail(value);
+    if (duplicateEmail) setDuplicateEmail(false);
   };
-  // const updatePassword = (value) => {
-  //   setPassword(value);
-  // };
   const updatePhone = (value) => {
     setPhone(value);
+    if (duplicatePhone) setDuplicatePhone(false);
   };
   const updateAddress1 = (value) => {
     setAddress1(value);
@@ -119,6 +124,20 @@ export default function useUserDetails(props) {
       teacher: teacher,
       admin: admin,
     };
+
+    if (
+      firstName.length === 0 ||
+      lastName.length === 0 ||
+      email.length === 0 ||
+      phone.length === 0 ||
+      address1.length === 0 ||
+      city.length === 0 ||
+      province.length === 0 ||
+      country.length === 0 ||
+      postalCode.length === 0
+    ) {
+      return Promise.reject();
+    }
     if (user.id) {
       data.id = user.id;
       return axios.post(`/user/${user.id}`, data).then((res) => {
@@ -126,6 +145,16 @@ export default function useUserDetails(props) {
         setUser(res.data);
       });
     }
+
+    const duplicate = isDuplicate(data, users);
+
+    if (duplicate.email) {
+      setDuplicateEmail(true);
+    }
+    if (duplicate.phone) {
+      setDuplicatePhone(true);
+    }
+    if (duplicate.email || duplicate.phone) return Promise.reject();
 
     return axios.post("/user/", data).then((res) => {
       updateUsers(res.data);
@@ -148,6 +177,8 @@ export default function useUserDetails(props) {
     student,
     teacher,
     admin,
+    duplicateEmail,
+    duplicatePhone,
     resetUser,
     updateFirstName,
     updateLastName,

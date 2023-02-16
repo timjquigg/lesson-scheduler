@@ -1,4 +1,4 @@
-// import { useContext } from "react";
+import { useState } from "react";
 import {
   Button,
   Dialog,
@@ -17,9 +17,7 @@ import useUserDetails from "../hooks/useUserDetails";
 export default function UserDetailsForm(props) {
   const open = props.open;
   const setOpen = props.setOpen;
-
-  // const { updateUsers } = useContext(usersContext);
-  // console.log(updateUsers);
+  const [showErrors, setShowErrors] = useState(false);
 
   const {
     firstName,
@@ -35,6 +33,8 @@ export default function UserDetailsForm(props) {
     student,
     teacher,
     admin,
+    duplicateEmail,
+    duplicatePhone,
     resetUser,
     updateFirstName,
     updateLastName,
@@ -54,13 +54,18 @@ export default function UserDetailsForm(props) {
 
   const handleClose = () => {
     setOpen(false);
+    setShowErrors(false);
     resetUser();
   };
 
   const handleSave = () => {
-    saveUpdates().then(() => {
-      setOpen(false);
-    });
+    saveUpdates()
+      .then(() => {
+        setOpen(false);
+      })
+      .catch(() => {
+        setShowErrors(true);
+      });
   };
 
   return (
@@ -72,35 +77,52 @@ export default function UserDetailsForm(props) {
           label="First Name"
           value={firstName}
           onChange={(e) => updateFirstName(e.target.value)}
+          error={showErrors && firstName.length === 0}
+          helperText={
+            showErrors && firstName.length === 0 && "First Name cannot be empty"
+          }
           sx={{ m: "0.5rem" }}
         />
         <TextField
           label="Last Name"
           value={lastName}
           onChange={(e) => updateLastName(e.target.value)}
+          error={showErrors && lastName.length === 0}
+          helperText={
+            showErrors && lastName.length === 0 && "Last Name cannot be empty"
+          }
           sx={{ m: "0.5rem" }}
         />
         <TextField
           label="E-mail"
           value={email}
           onChange={(e) => updateEmail(e.target.value)}
+          error={duplicateEmail || (showErrors && email.length === 0)}
+          helperText={
+            (duplicateEmail && "E-mail exists") ||
+            (showErrors && email.length === 0 && "E-mail cannot be blank")
+          }
           sx={{ m: "0.5rem" }}
         />
-        {/* <TextField
-          label="Password"
-          value={password}
-          onChange={(e) => updatePassword(e.target.value)}
-        /> */}
         <TextField
           label="Phone"
           value={phone}
           onChange={(e) => updatePhone(e.target.value)}
+          error={duplicatePhone || (showErrors && phone.length === 0)}
+          helperText={
+            (duplicatePhone && "Phone exists") ||
+            (showErrors && phone.length === 0 && "Phone cannot be blank")
+          }
           sx={{ m: "0.5rem" }}
         />
         <TextField
           label="Address 1"
           value={address1}
           onChange={(e) => updateAddress1(e.target.value)}
+          error={showErrors && address1.length === 0}
+          helperText={
+            showErrors && address1.length === 0 && "Address cannot be empty"
+          }
           sx={{ m: "0.5rem" }}
         />
         <TextField
@@ -113,24 +135,39 @@ export default function UserDetailsForm(props) {
           label="City"
           value={city}
           onChange={(e) => updateCity(e.target.value)}
+          error={showErrors && city.length === 0}
+          helperText={showErrors && city.length === 0 && "City cannot be blank"}
           sx={{ m: "0.5rem" }}
         />
+
         <TextField
           label="Province"
           value={province}
           onChange={(e) => updateProvince(e.target.value)}
+          error={showErrors && province.length === 0}
+          helperText={
+            showErrors && province.length === 0 && "Province cannot be blank"
+          }
           sx={{ m: "0.5rem" }}
         />
         <TextField
           label="Country"
           value={country}
           onChange={(e) => updateCountry(e.target.value)}
+          error={showErrors && country.length === 0}
+          helperText={
+            showErrors && country.length === 0 && "Country cannot be blank"
+          }
           sx={{ m: "0.5rem" }}
         />
         <TextField
           label="Postal Code"
           value={postalCode}
           onChange={(e) => updatePostalCode(e.target.value)}
+          error={showErrors && postalCode.length === 0}
+          helperText={
+            showErrors && postalCode.length === 0 && "Post Code cannot be blank"
+          }
           sx={{ m: "0.5rem" }}
         />
         <FormGroup>
