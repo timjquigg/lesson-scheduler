@@ -12,9 +12,10 @@ export default function UsersProvider(props) {
       for (const index in newUsers) {
         if (users[index].id === newUser.id) {
           newUsers[index] = newUser;
-          break;
+          return newUsers;
         }
       }
+      newUsers.push(newUser);
       return newUsers;
     });
   };

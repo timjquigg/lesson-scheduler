@@ -14,7 +14,6 @@ import {
 import { useContext } from "react";
 import { userContext } from "../../providers/userProvider";
 import useAppointments from "../../hooks/useAppointments";
-import makeTitleCase from "../../helpers/makeTitleCase";
 
 export default function Appointments(props) {
   const { user } = useContext(userContext);
@@ -37,8 +36,7 @@ export default function Appointments(props) {
           {format(parsedEnd, "mm")} {format(parsedEnd, "a")}
         </TableCell>
         <TableCell>
-          {makeTitleCase(appointment.teacher.first_name)}{" "}
-          {makeTitleCase(appointment.teacher.last_name)}
+          {appointment.teacher.first_name} {appointment.teacher.last_name}
         </TableCell>
       </TableRow>
     );
