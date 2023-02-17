@@ -1,4 +1,4 @@
-import { forwardRef, useState } from "react";
+import { useState } from "react";
 import {
   Button,
   Dialog,
@@ -13,8 +13,6 @@ import {
   Checkbox,
   FormLabel,
   FormHelperText,
-  InputLabel,
-  Input,
 } from "@mui/material";
 import useUserDetails from "../hooks/useUserDetails";
 import { IMaskMixin } from "react-imask";
@@ -45,6 +43,7 @@ export default function UserDetailsForm(props) {
     duplicateEmail,
     duplicatePhone,
     noRolesSelected,
+    invalidEmail,
     resetUser,
     updateFirstName,
     updateLastName,
@@ -74,6 +73,7 @@ export default function UserDetailsForm(props) {
         setOpen(false);
       })
       .catch(() => {
+        console.log("Catch in form");
         setShowErrors(true);
       });
   };
@@ -113,10 +113,10 @@ export default function UserDetailsForm(props) {
           label="E-mail"
           value={email}
           onChange={(e) => updateEmail(e.target.value)}
-          error={duplicateEmail || (showErrors && email.length === 0)}
+          error={duplicateEmail || invalidEmail}
           helperText={
             (duplicateEmail && "E-mail exists") ||
-            (showErrors && email.length === 0 && "E-mail cannot be blank") ||
+            (invalidEmail && "Please enter a valid E-mail address") ||
             " "
           }
           sx={{ m: "0.25rem", minWidth: "250px" }}
