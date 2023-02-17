@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { forwardRef, useState } from "react";
 import {
   Button,
   Dialog,
@@ -13,9 +13,19 @@ import {
   Checkbox,
   FormLabel,
   FormHelperText,
+  InputLabel,
+  Input,
 } from "@mui/material";
 import useUserDetails from "../hooks/useUserDetails";
-// import { usersContext } from "../providers/usersProvider";
+import { IMaskMixin } from "react-imask";
+
+const IMaskPhoneInput = IMaskMixin(({ ...props }) => {
+  return <TextField {...props} />;
+});
+
+const IMaskPostalCodeInput = IMaskMixin(({ ...props }) => {
+  return <TextField {...props} />;
+});
 
 export default function UserDetailsForm(props) {
   const open = props.open;
@@ -115,7 +125,7 @@ export default function UserDetailsForm(props) {
           }
           sx={{ m: "0.25rem", minWidth: "250px" }}
         />
-        <TextField
+        <IMaskPhoneInput
           label="Phone"
           value={phone}
           onChange={(e) => updatePhone(e.target.value)}
@@ -125,6 +135,8 @@ export default function UserDetailsForm(props) {
             (showErrors && phone.length === 0 && "Phone cannot be blank") ||
             " "
           }
+          mask={"(000) 000-0000"}
+          lazy={false}
           sx={{ m: "0.25rem" }}
         />
         <TextField
@@ -171,18 +183,7 @@ export default function UserDetailsForm(props) {
           }
           sx={{ m: "0.25rem" }}
         />
-        <TextField
-          label="Country"
-          value={country}
-          onChange={(e) => updateCountry(e.target.value)}
-          error={showErrors && country.length === 0}
-          helperText={
-            (showErrors && country.length === 0 && "Country cannot be blank") ||
-            " "
-          }
-          sx={{ m: "0.25rem" }}
-        />
-        <TextField
+        <IMaskPostalCodeInput
           label="Postal Code"
           value={postalCode}
           onChange={(e) => updatePostalCode(e.target.value)}
@@ -191,6 +192,19 @@ export default function UserDetailsForm(props) {
             (showErrors &&
               postalCode.length === 0 &&
               "Post Code cannot be blank") ||
+            " "
+          }
+          mask={"a0a 0a0"}
+          lazy={false}
+          sx={{ m: "0.25rem" }}
+        />
+        <TextField
+          label="Country"
+          value={country}
+          onChange={(e) => updateCountry(e.target.value)}
+          error={showErrors && country.length === 0}
+          helperText={
+            (showErrors && country.length === 0 && "Country cannot be blank") ||
             " "
           }
           sx={{ m: "0.25rem" }}

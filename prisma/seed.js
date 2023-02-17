@@ -1,5 +1,6 @@
 const { PrismaClient } = require("@prisma/client");
 const { appointment } = require("../lib/prisma");
+const { makeTitleCase } = require("../lib/makeTitleCase");
 
 const prisma = new PrismaClient();
 
@@ -15,7 +16,7 @@ const students = [
     city: "calgary",
     province: "alberta",
     country: "canada",
-    postal_code: "1A2 B3C",
+    postal_code: "A2B3C1",
     student: true,
     teacher: false,
   },
@@ -30,7 +31,7 @@ const students = [
     city: "calgary",
     province: "alberta",
     country: "canada",
-    postal_code: "1A2 B3C",
+    postal_code: "A2B3C1",
     student: true,
     teacher: false,
   },
@@ -45,7 +46,7 @@ const students = [
     city: "calgary",
     province: "alberta",
     country: "canada",
-    postal_code: "1A2 B3C",
+    postal_code: "A2B3C1",
     student: true,
     teacher: false,
   },
@@ -63,7 +64,7 @@ const teachers = [
     city: "calgary",
     province: "alberta",
     country: "canada",
-    postal_code: "1A2 B3C",
+    postal_code: "A2B3C1",
     student: false,
     teacher: true,
   },
@@ -120,12 +121,25 @@ const appointments = [
 
 async function main() {
   for (const student of students) {
+    student.first_name = makeTitleCase(student.first_name);
+    student.last_name = makeTitleCase(student.last_name);
+    student.address_1 = makeTitleCase(student.address_1);
+    student.city = makeTitleCase(student.city);
+    student.province = makeTitleCase(student.province);
+    student.country = makeTitleCase(student.country);
+
     const user = await prisma.User.create({
       data: student,
     });
     console.log(`Created student user with id: ${user.id}`);
   }
   for (const teacher of teachers) {
+    teacher.first_name = makeTitleCase(teacher.first_name);
+    teacher.last_name = makeTitleCase(teacher.last_name);
+    teacher.address_1 = makeTitleCase(teacher.address_1);
+    teacher.city = makeTitleCase(teacher.city);
+    teacher.province = makeTitleCase(teacher.province);
+    teacher.country = makeTitleCase(teacher.country);
     const user = await prisma.User.create({
       data: teacher,
     });
@@ -138,6 +152,12 @@ async function main() {
     console.log(`Created appointment with id: ${instance.id}`);
   }
   for (const admin of admins) {
+    admin.first_name = makeTitleCase(admin.first_name);
+    admin.last_name = makeTitleCase(admin.last_name);
+    admin.address_1 = makeTitleCase(admin.address_1);
+    admin.city = makeTitleCase(admin.city);
+    admin.province = makeTitleCase(admin.province);
+    admin.country = makeTitleCase(admin.country);
     const user = await prisma.User.create({
       data: admin,
     });
