@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, useCallback } from "react";
 import isDuplicate from "../helpers/isDuplicate";
 import axios from "axios";
 import { usersContext } from "../providers/usersProvider";
@@ -41,15 +41,12 @@ export default function useUserDetails(props) {
   const [duplicateEmail, setDuplicateEmail] = useState(false);
   const [duplicatePhone, setDuplicatePhone] = useState(false);
   const [noRolesSelected, setNoRolesSelected] = useState(false);
+  const [invalidEmail, setInvalidEmail] = useState(false);
 
   const { users, updateUsers } = useContext(usersContext);
 
-  useEffect(() => {
-    setUser(props ?? emptyUser);
-  }, [props]);
-
-  const resetUser = () => {
-    setUser(props ?? emptyUser);
+  const resetUser = useCallback(() => {
+    // setUser(props ?? emptyUser);
     setFirstName(user.first_name);
     setLastName(user.last_name);
     setEmail(user.email);
@@ -66,7 +63,16 @@ export default function useUserDetails(props) {
     setDuplicateEmail(false);
     setDuplicatePhone(false);
     setNoRolesSelected(false);
-  };
+    setInvalidEmail(false);
+  }, [user]);
+
+  useEffect(() => {
+    setUser(props ?? emptyUser);
+  }, [props]);
+
+  useEffect(() => {
+    resetUser();
+  }, [user, resetUser]);
 
   const updateFirstName = (value) => {
     setFirstName(value);
@@ -76,6 +82,7 @@ export default function useUserDetails(props) {
   };
   const updateEmail = (value) => {
     setEmail(value);
+    if (invalidEmail) setInvalidEmail(false);
     if (duplicateEmail) setDuplicateEmail(false);
   };
   const updatePhone = (value) => {
@@ -113,23 +120,40 @@ export default function useUserDetails(props) {
     setAdmin(!admin);
   };
 
-  const saveUpdates = () => {
-    const data = {
-      first_name: firstName,
-      last_name: lastName,
-      email: email,
-      phone: phone,
-      address_1: address1,
-      address_2: address2,
-      city: city,
-      province: province,
-      country: country,
-      postal_code: postalCode.replace(" ", ""),
-      student: student,
-      teacher: teacher,
-      admin: admin,
-    };
+  const cleanPhone = (phone) => {
+    if (phone.length === 11) {
+      return phone.slice(1);
+    }
+    return phone;
+  };
+
+  const cleanPostalCode = (postalCode) => {
+    return postalCode.replace(" ", "");
+  };
+
+  const validateData = (data) => {
+    // Data validation:
+
+    // User must have a role
     if (!student && !teacher && !admin) setNoRolesSelected(true);
+
+    // Check to make sure e-mail and phone # are unique
+    const duplicate = isDuplicate(data, users);
+
+    if (duplicate.email) setDuplicateEmail(true);
+    if (duplicate.phone) setDuplicatePhone(true);
+
+    // Confirm e-mail address is valid format:
+    let hasInvalidEmail = false;
+    if (
+      !/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i.test(
+        email
+      )
+    ) {
+      hasInvalidEmail = true;
+      setInvalidEmail(true);
+    }
+
     if (
       firstName.length === 0 ||
       lastName.length === 0 ||
@@ -140,36 +164,54 @@ export default function useUserDetails(props) {
       province.length === 0 ||
       country.length === 0 ||
       postalCode.length === 0 ||
-      noRolesSelected
+      (!student && !teacher && !admin) ||
+      duplicate.email ||
+      duplicate.phone ||
+      hasInvalidEmail
     ) {
-      return Promise.reject();
+      return false;
     }
-    if (phone.length === 11) {
-      data.phone = phone.slice(1);
-    }
+    return true;
+  };
 
-    if (user.id) {
-      data.id = user.id;
-      return axios.post(`/user/${user.id}`, data).then((res) => {
+  const saveUpdates = () => {
+    // Compile individual fields into new data object
+    const data = {
+      first_name: firstName,
+      last_name: lastName,
+      email: email,
+      phone: cleanPhone(phone),
+      address_1: address1,
+      address_2: address2,
+      city: city,
+      province: province,
+      country: country,
+      postal_code: cleanPostalCode(postalCode),
+      student: student,
+      teacher: teacher,
+      admin: admin,
+    };
+
+    if (user.id) data.id = user.id;
+    // Data validation:
+    if (validateData(data)) {
+      // If validation passes and user exists, update user
+      if (user.id) {
+        data.id = user.id;
+        return axios.post(`/user/${user.id}`, data).then((res) => {
+          setUser(res.data);
+          updateUsers(res.data);
+        });
+      }
+
+      // If new user, create
+      return axios.post("/user/", data).then((res) => {
         updateUsers(res.data);
         setUser(res.data);
       });
+    } else {
+      return Promise.reject();
     }
-
-    const duplicate = isDuplicate(data, users);
-
-    if (duplicate.email) {
-      setDuplicateEmail(true);
-    }
-    if (duplicate.phone) {
-      setDuplicatePhone(true);
-    }
-    if (duplicate.email || duplicate.phone) return Promise.reject();
-
-    return axios.post("/user/", data).then((res) => {
-      updateUsers(res.data);
-      setUser(res.data);
-    });
   };
 
   return {
@@ -190,6 +232,7 @@ export default function useUserDetails(props) {
     duplicateEmail,
     duplicatePhone,
     noRolesSelected,
+    invalidEmail,
     resetUser,
     updateFirstName,
     updateLastName,
