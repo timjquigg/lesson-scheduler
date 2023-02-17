@@ -8,7 +8,6 @@ import {
   TableBody,
 } from "@mui/material";
 import Row from "./row";
-// import useUsers from "../../hooks/useUsers";
 
 export default function UserTable(props) {
   const { users } = props;

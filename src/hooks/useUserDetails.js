@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, useCallback } from "react";
 import isDuplicate from "../helpers/isDuplicate";
 import axios from "axios";
 import { usersContext } from "../providers/usersProvider";
@@ -45,12 +45,8 @@ export default function useUserDetails(props) {
 
   const { users, updateUsers } = useContext(usersContext);
 
-  useEffect(() => {
-    setUser(props ?? emptyUser);
-  }, [props]);
-
-  const resetUser = () => {
-    setUser(props ?? emptyUser);
+  const resetUser = useCallback(() => {
+    // setUser(props ?? emptyUser);
     setFirstName(user.first_name);
     setLastName(user.last_name);
     setEmail(user.email);
@@ -68,7 +64,15 @@ export default function useUserDetails(props) {
     setDuplicatePhone(false);
     setNoRolesSelected(false);
     setInvalidEmail(false);
-  };
+  }, [user]);
+
+  useEffect(() => {
+    setUser(props ?? emptyUser);
+  }, [props]);
+
+  useEffect(() => {
+    resetUser();
+  }, [user, resetUser]);
 
   const updateFirstName = (value) => {
     setFirstName(value);
@@ -146,8 +150,8 @@ export default function useUserDetails(props) {
         email
       )
     ) {
-      setInvalidEmail(true);
       hasInvalidEmail = true;
+      setInvalidEmail(true);
     }
 
     if (
@@ -195,8 +199,8 @@ export default function useUserDetails(props) {
       if (user.id) {
         data.id = user.id;
         return axios.post(`/user/${user.id}`, data).then((res) => {
-          updateUsers(res.data);
           setUser(res.data);
+          updateUsers(res.data);
         });
       }
 
