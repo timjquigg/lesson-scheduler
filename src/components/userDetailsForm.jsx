@@ -19,11 +19,7 @@ import {
 import useUserDetails from "../hooks/useUserDetails";
 import { IMaskMixin } from "react-imask";
 
-const IMaskPhoneInput = IMaskMixin(({ ...props }) => {
-  return <TextField {...props} />;
-});
-
-const IMaskPostalCodeInput = IMaskMixin(({ ...props }) => {
+const IMaskInput = IMaskMixin(({ ...props }) => {
   return <TextField {...props} />;
 });
 
@@ -125,17 +121,18 @@ export default function UserDetailsForm(props) {
           }
           sx={{ m: "0.25rem", minWidth: "250px" }}
         />
-        <IMaskPhoneInput
+        <IMaskInput
           label="Phone"
           value={phone}
-          onChange={(e) => updatePhone(e.target.value)}
+          unmask={true}
+          onAccept={(value, mask) => updatePhone(value)}
           error={duplicatePhone || (showErrors && phone.length === 0)}
           helperText={
             (duplicatePhone && "Phone exists") ||
             (showErrors && phone.length === 0 && "Phone cannot be blank") ||
             " "
           }
-          mask={"(000) 000-0000"}
+          mask={[{ mask: "(000) 000-0000" }, { mask: "0 (000) 000-0000" }]}
           lazy={false}
           sx={{ m: "0.25rem" }}
         />
@@ -183,7 +180,7 @@ export default function UserDetailsForm(props) {
           }
           sx={{ m: "0.25rem" }}
         />
-        <IMaskPostalCodeInput
+        <IMaskInput
           label="Postal Code"
           value={postalCode}
           onChange={(e) => updatePostalCode(e.target.value)}
@@ -194,7 +191,8 @@ export default function UserDetailsForm(props) {
               "Post Code cannot be blank") ||
             " "
           }
-          mask={"a0a 0a0"}
+          mask={[{ mask: "a0a[ ]0a0" }, { mask: "a0a0a0" }]}
+          unmask={true}
           lazy={false}
           sx={{ m: "0.25rem" }}
         />

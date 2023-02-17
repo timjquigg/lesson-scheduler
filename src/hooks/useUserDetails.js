@@ -124,7 +124,7 @@ export default function useUserDetails(props) {
       city: city,
       province: province,
       country: country,
-      postal_code: postalCode,
+      postal_code: postalCode.replace(" ", ""),
       student: student,
       teacher: teacher,
       admin: admin,
@@ -143,6 +143,9 @@ export default function useUserDetails(props) {
       noRolesSelected
     ) {
       return Promise.reject();
+    }
+    if (phone.length === 11) {
+      data.phone = phone.slice(1);
     }
 
     if (user.id) {

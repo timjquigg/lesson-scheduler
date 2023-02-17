@@ -20,7 +20,8 @@ router.post("/login", async (req, res) => {
   // If the user has a session cookie
   if (req.session.userId) {
     const user = await getUserbyId(req.session.userId);
-    console.log(`User ${user.id} already logged in`);
+    // console.log(`User ${user.id} already logged in`);
+    console.log(req.session.userId);
     res.status(200).send(user);
     return;
   }

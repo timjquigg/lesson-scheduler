@@ -82,7 +82,7 @@ const admins = [
     city: "calgary",
     province: "alberta",
     country: "canada",
-    postal_code: "T2Z 4C2",
+    postal_code: "T2Z4C2",
     admin: true,
   },
 ];

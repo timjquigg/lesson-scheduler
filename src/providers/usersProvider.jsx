@@ -18,7 +18,6 @@ export default function UsersProvider(props) {
       newUsers.push(newUser);
       return newUsers;
     });
-    console.log(newUser);
   };
 
   useEffect(() => {
