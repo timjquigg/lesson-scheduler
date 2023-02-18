@@ -6,7 +6,7 @@ import UserTable from "./userTable";
 import { usersContext } from "../../providers/usersProvider";
 
 export default function UserList(props) {
-  const { users, updateUsers } = useContext(usersContext);
+  const { users } = useContext(usersContext);
   const [value, setValue] = useState(0);
   const [students, setStudents] = useState([]);
   const [teachers, setTeachers] = useState([]);

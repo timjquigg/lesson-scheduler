@@ -37,12 +37,13 @@ export default function useUserDetails(props) {
   const [teacher, setTeacher] = useState(user.teacher);
   const [admin, setAdmin] = useState(user.admin);
 
-  // Error checking:
+  // Error checking state variables:
   const [duplicateEmail, setDuplicateEmail] = useState(false);
   const [duplicatePhone, setDuplicatePhone] = useState(false);
   const [noRolesSelected, setNoRolesSelected] = useState(false);
   const [invalidEmail, setInvalidEmail] = useState(false);
 
+  // List of all users
   const { users, updateUsers } = useContext(usersContext);
 
   const resetUser = useCallback(() => {
