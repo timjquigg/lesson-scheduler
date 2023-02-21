@@ -32,6 +32,7 @@ router.post("/login", async (req, res) => {
     user.password = "";
     req.session = {
       userId: user.id,
+      admin: user.admin,
     };
     console.log(`Logged in user ${user.id}`);
     res.status(200).send(user);
@@ -50,14 +51,24 @@ router.post("/logout", (req, res) => {
 });
 
 router.post("/:id", async (req, res) => {
-  const user = await updateUser(req.body);
-  res.status(200).send(user);
+  console.log(req.params.id);
+  if (req.session.admin || req.params.id === req.session.id) {
+    const user = await updateUser(req.body);
+    res.status(200).send(user);
+    return;
+  }
+  res.status(401).send();
+  return;
 });
 
 router.post("/", async (req, res) => {
-  const newUser = await createUser(req.body);
-  newUser.password = "";
-  res.status(201).send(newUser);
+  if (req.session.admin) {
+    const newUser = await createUser(req.body);
+    newUser.password = "";
+    res.status(201).send(newUser);
+    return;
+  }
+  res.status(401).send();
   return;
 });
 
