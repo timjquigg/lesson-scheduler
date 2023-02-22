@@ -117,6 +117,12 @@ const appointments = [
     start: new Date(today.valueOf() + 14 * day),
     end: new Date(today.valueOf() + 14 * day + hour),
   },
+  {
+    studentId: 2,
+    teacherId: 4,
+    start: new Date(today.valueOf() + 12 * day),
+    end: new Date(today.valueOf() + 14 * day + hour),
+  },
 ];
 
 async function main() {

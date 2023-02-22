@@ -1,4 +1,3 @@
-import { format, parseISO } from "date-fns";
 import {
   Card,
   Typography,
@@ -9,38 +8,34 @@ import {
   TableCell,
   TableRow,
   TableBody,
-  Button,
 } from "@mui/material";
+import Row from "./row";
 import { useContext } from "react";
 import { userContext } from "../../providers/userProvider";
 import useAppointments from "../../hooks/useAppointments";
 
 export default function Appointments(props) {
   const { user } = useContext(userContext);
-  const appointments = useAppointments(user);
-
-  const appointmentList = appointments.map((appointment, index) => {
-    const parsedStart = parseISO(appointment.start);
-    const parsedEnd = parseISO(appointment.end);
-    return (
-      <TableRow key={index}>
-        <TableCell>{format(parsedStart, "P")}</TableCell>
-        <TableCell>
-          {format(parsedStart, "hh")}
-          {":"}
-          {format(parsedStart, "mm")} {format(parsedStart, "a")}
-        </TableCell>
-        <TableCell>
-          {format(parsedEnd, "hh")}
-          {":"}
-          {format(parsedEnd, "mm")} {format(parsedEnd, "a")}
-        </TableCell>
-        <TableCell>
-          {appointment.teacher.first_name} {appointment.teacher.last_name}
-        </TableCell>
-      </TableRow>
-    );
+  const { admin } = props;
+  const { appointments, cancelAppointmentStudent } = useAppointments({
+    user,
+    admin,
   });
+
+  let appointmentsList = [];
+  if (appointments.length > 0) {
+    appointmentsList = appointments.map((appointment, index) => {
+      return (
+        <Row
+          key={index}
+          index={index}
+          appointment={appointment}
+          admin={admin}
+          remove={cancelAppointmentStudent}
+        />
+      );
+    });
+  }
 
   return (
     <Card sx={{ m: 2 }}>
@@ -49,14 +44,27 @@ export default function Appointments(props) {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>Date</TableCell>
-              <TableCell>Start Time</TableCell>
-              <TableCell>End Time</TableCell>
-              <TableCell>Teacher</TableCell>
+              {admin && (
+                <TableCell align="center" sx={{ mx: 0.5, px: 0.5 }}>
+                  Student
+                </TableCell>
+              )}
+              <TableCell align="center" sx={{ mx: 0.5, px: 0.5 }}>
+                Date
+              </TableCell>
+              <TableCell align="center" sx={{ mx: 0.5, px: 0.5 }}>
+                Start Time
+              </TableCell>
+              <TableCell align="center" sx={{ mx: 0.5, px: 0.5 }}>
+                End Time
+              </TableCell>
+              <TableCell align="center" sx={{ mx: 0.5, px: 0.5 }}>
+                Teacher
+              </TableCell>
+              <TableCell align="center" sx={{ mx: 0.5, px: 0.5 }}></TableCell>
             </TableRow>
           </TableHead>
-          <TableBody></TableBody>
-          {appointmentList}
+          <TableBody>{appointmentsList}</TableBody>
         </Table>
       </TableContainer>
     </Card>
