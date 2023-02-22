@@ -5,7 +5,6 @@ export default function useUsers() {
   const [users, setUsers] = useState([]);
 
   const updateUsers = (newUser) => {
-    console.log("New user in useUsers", newUser);
     setUsers((prev) => {
       const newUsers = [...prev];
       for (const index in newUsers) {
@@ -24,6 +23,5 @@ export default function useUsers() {
     });
   }, []);
 
-  console.log("render useUsers");
   return { users, updateUsers };
 }

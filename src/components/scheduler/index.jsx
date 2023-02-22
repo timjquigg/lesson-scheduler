@@ -21,13 +21,11 @@ export default function Scheduler(props) {
       <DialogTitle>Book A Lesson</DialogTitle>
       <DialogContentText></DialogContentText>
       <DialogContentText>
-        {/* <Paper sx={{ width: "100%", p: "1rem", mx: "auto" }}> */}
         <CalendarForm />
         <Box sx={{ display: "flex", flexDirection: "row", p: "1rem" }}>
           <Calendar width="75%" margin="0.5rem" />
           <TimeSlots width="25%" margin="0.5rem" />
         </Box>
-        {/* </Paper> */}
       </DialogContentText>
     </Dialog>
   );

@@ -4,7 +4,6 @@ import axios from "axios";
 export default function useAppointments(props) {
   const [appointments, setAppointments] = useState([]);
   const { user, admin } = props;
-  console.log(`admin in useAppointments: ${admin}`);
 
   useEffect(() => {
     if (admin) {
@@ -28,5 +27,22 @@ export default function useAppointments(props) {
     });
   };
 
-  return appointments;
+  const deleteAppointment = (id) => {
+    axios.delete(`/appointments/${id}`).then((res) => {
+      console.log(res.data);
+    });
+  };
+
+  const cancelAppointmentStudent = (id) => {
+    axios.put(`/appointments/${id}`).then((res) => {
+      setAppointments((prev) => {
+        const newAppointments = [...prev];
+        const index = newAppointments.findIndex((app) => app.id === id);
+        newAppointments.splice(index, 1);
+        return newAppointments;
+      });
+    });
+  };
+
+  return { appointments, deleteAppointment, cancelAppointmentStudent };
 }

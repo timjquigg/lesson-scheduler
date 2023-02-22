@@ -38,4 +38,5 @@ model Appointment {
   teacherId   Int
   start       DateTime
   end         DateTime
+  notes       String?    @db.Text
 }
